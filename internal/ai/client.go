@@ -60,15 +60,15 @@ func GenerateSummary(url string) (string, error) {
 		}
 
 		response := Response{}
-		json.Unmarshal(resBody, &response)
+		_ = json.Unmarshal(resBody, &response)
 
 		if len(response.Candidates) == 0 || len(response.Candidates[0].Content.Parts) == 0 {
 			return result, fmt.Errorf("Response empty - %s", string(resBody))
 		}
 
 		result = strings.TrimSpace(response.Candidates[0].Content.Parts[0].Text)
-		result = strings.ReplaceAll(response.Candidates[0].Content.Parts[0].Text, "\"", "")
-		result = strings.ReplaceAll(response.Candidates[0].Content.Parts[0].Text, "\n", "<br>")
+		result = strings.ReplaceAll(result, "\"", "")
+		result = strings.ReplaceAll(result, "\n", "<br>")
 	}
 
 	return result, err

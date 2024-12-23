@@ -22,7 +22,7 @@ type Candidate struct {
 }
 
 type Content struct {
-	Parts []ResponsePart `json:"parts`
+	Parts []ResponsePart `json:"parts"`
 }
 
 type ResponsePart struct {

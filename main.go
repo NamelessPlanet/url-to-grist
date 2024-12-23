@@ -94,12 +94,12 @@ func startServer() error {
 			entry, err := processURL(url, entry)
 			if err != nil {
 				w.WriteHeader(http.StatusInternalServerError)
-				w.Write([]byte(err.Error()))
+				_, _ = w.Write([]byte(err.Error()))
 				return
 			}
 
 			entryJSON, _ := json.MarshalIndent(entry, "", "  ")
-			w.Write([]byte(fmt.Sprintf("Imported successfully - %s\n\n%s", url, string(entryJSON))))
+			_, _ = w.Write([]byte(fmt.Sprintf("Imported successfully - %s\n\n%s", url, string(entryJSON))))
 		} else {
 			w.WriteHeader(http.StatusBadRequest)
 		}
