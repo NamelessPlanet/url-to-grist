@@ -2,7 +2,7 @@ module url-to-grist
 
 go 1.23.1
 
-require github.com/gocolly/colly v1.2.0
+require github.com/gocolly/colly/v2 v2.1.0
 
 require (
 	github.com/PuerkitoBio/goquery v1.10.0 // indirect
@@ -19,5 +19,5 @@ require (
 	golang.org/x/net v0.33.0 // indirect
 	golang.org/x/text v0.21.0 // indirect
 	google.golang.org/appengine v1.6.8 // indirect
-	google.golang.org/protobuf v1.26.0 // indirect
+	google.golang.org/protobuf v1.33.0 // indirect
 )

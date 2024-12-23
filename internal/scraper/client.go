@@ -6,7 +6,7 @@ import (
 
 	"url-to-grist/internal/types"
 
-	"github.com/gocolly/colly"
+	"github.com/gocolly/colly/v2"
 )
 
 func FetchURLDetails(entry *types.Entry) (*types.Entry, error) {
