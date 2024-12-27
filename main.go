@@ -15,7 +15,8 @@ import (
 )
 
 var (
-	port string
+	port              string
+	webserverPassword string
 )
 
 func init() {
@@ -24,6 +25,8 @@ func init() {
 	if !ok {
 		port = "8000"
 	}
+
+	webserverPassword = os.Getenv("WEBSERVER_PASSWORD")
 }
 
 func main() {
@@ -49,8 +52,16 @@ func main() {
 
 func startServer() error {
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		url := ""
+		// Enforce password access
+		if webserverPassword != "" {
+			userPass := r.URL.Query().Get("password")
+			if userPass != webserverPassword {
+				w.WriteHeader(http.StatusUnauthorized)
+				return
+			}
+		}
 
+		url := ""
 		category := ""
 		featured := false
 		sponsored := false
