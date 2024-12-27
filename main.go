@@ -63,6 +63,7 @@ func startServer() error {
 
 		url := ""
 		category := ""
+		summary := ""
 		featured := false
 		sponsored := false
 
@@ -87,6 +88,9 @@ func startServer() error {
 		if r.URL.Query().Has("category") {
 			category = r.URL.Query().Get("category")
 		}
+		if r.URL.Query().Has("summary") {
+			summary = r.URL.Query().Get("summary")
+		}
 		if r.URL.Query().Has("featured") {
 			featured = true
 		}
@@ -100,6 +104,7 @@ func startServer() error {
 				Category:  category,
 				Sponsored: sponsored,
 				Featured:  featured,
+				Summary:   summary,
 			}
 
 			entry, err := processURL(url, entry)

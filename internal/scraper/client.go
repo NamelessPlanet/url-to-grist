@@ -25,7 +25,9 @@ func FetchURLDetails(entry *types.Entry) (*types.Entry, error) {
 		case "og:title":
 			entry.Title = e.Attr("content")
 		case "og:description":
-			entry.Summary = e.Attr("content")
+			if entry.Summary == "" {
+				entry.Summary = e.Attr("content")
+			}
 		case "og:article:author":
 			entry.Byline = e.Attr("content")
 		}
@@ -36,7 +38,9 @@ func FetchURLDetails(entry *types.Entry) (*types.Entry, error) {
 		case "og:title":
 			entry.Title = e.Attr("content")
 		case "og:description":
-			entry.Summary = e.Attr("content")
+			if entry.Summary == "" {
+				entry.Summary = e.Attr("content")
+			}
 		case "og:article:author":
 			entry.Byline = e.Attr("content")
 		case "article:author":
