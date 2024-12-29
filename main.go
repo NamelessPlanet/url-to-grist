@@ -52,6 +52,12 @@ func main() {
 
 func startServer() error {
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		if r.URL.Path == "/healthz" || r.URL.Path == "/readyz" {
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte("ok"))
+			return
+		}
+
 		// Enforce password access
 		if webserverPassword != "" {
 			userPass := r.URL.Query().Get("password")
