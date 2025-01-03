@@ -48,13 +48,13 @@ func Import(entry *types.Entry) (*types.Entry, error) {
 		]
 	}`,
 		entry.URL,
-		entry.Title,
-		entry.Summary,
+		strings.ReplaceAll(entry.Title, "\n", "<br>"),
+		strings.ReplaceAll(entry.Summary, "\n", "<br>"),
 		entry.Byline,
 		entry.Category,
 		entry.Year,
 		entry.Month,
-		entry.AISummary,
+		strings.ReplaceAll(entry.AISummary, "\n", "<br>")
 		entry.Featured,
 		entry.Sponsored,
 	)
