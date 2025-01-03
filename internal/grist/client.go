@@ -54,7 +54,7 @@ func Import(entry *types.Entry) (*types.Entry, error) {
 		entry.Category,
 		entry.Year,
 		entry.Month,
-		strings.ReplaceAll(entry.AISummary, "\n", "<br>")
+		strings.ReplaceAll(entry.AISummary, "\n", "<br>"),
 		entry.Featured,
 		entry.Sponsored,
 	)
