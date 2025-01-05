@@ -47,6 +47,17 @@ func FetchURLDetails(entry *types.Entry) (*types.Entry, error) {
 			entry.Byline = e.Attr("content")
 		case "author":
 			entry.Byline = e.Attr("content")
+		case "octolytics-dimension-user_login":
+			entry.Byline = e.Attr("content")
+		}
+	})
+
+	c.OnHTML("span[itemprop='author']", func(e *colly.HTMLElement) {
+		if entry.Byline == "" {
+			linkChild := e.DOM.Find("link[itemprop='name']")
+			if linkChild != nil {
+				entry.Byline, _ = linkChild.Attr("content")
+			}
 		}
 	})
 
