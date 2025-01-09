@@ -65,6 +65,7 @@ func FetchURLDetails(entry *types.Entry) (*types.Entry, error) {
 		fmt.Println("Visiting", r.URL.String())
 	})
 
+	c.UserAgent = "url-to-grist - https://github.com/NamelessPlanet/url-to-grist"
 	err = c.Visit(entry.URL)
 	if err != nil {
 		fmt.Printf("Failed to scrape details from '%s' - %s\n", entry.URL, err)
