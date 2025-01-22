@@ -143,7 +143,6 @@ func processURL(url string, baseEntry *types.Entry) (*types.Entry, error) {
 	entry, err := scraper.FetchURLDetails(entry)
 	if err != nil {
 		fmt.Printf("Failed to fetch URL details - %s\n", err)
-		return entry, err
 	}
 
 	aiSummary, err := ai.GenerateSummary(entry.URL)
