@@ -5,6 +5,9 @@ on:
 
 name: Create Release
 
+permissions:
+  contents: wrtie
+
 jobs:
   build:
     name: Create Release
