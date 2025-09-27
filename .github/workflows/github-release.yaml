@@ -6,7 +6,7 @@ on:
 name: Create Release
 
 permissions:
-  contents: wrtie
+  contents: write
 
 jobs:
   build:
