@@ -32,18 +32,20 @@ func Import(entry *types.Entry) (*types.Entry, error) {
 	c := http.Client{}
 
 	records := Records{
-		Record{
-			Fields: Fields{
-				URL:       entry.URL,
-				Title:     strings.ReplaceAll(entry.Title, "\n", "<br>"),
-				Summary:   strings.ReplaceAll(entry.Summary, "\n", "<br>"),
-				Byline:    entry.Byline,
-				Category:  entry.Category,
-				Year:      entry.Year,
-				Month:     entry.Month,
-				AISummary: strings.ReplaceAll(entry.AISummary, "\n", "<br>"),
-				Featured:  entry.Featured,
-				Sponsored: entry.Sponsored,
+		Records: []Record{
+			{
+				Fields: Fields{
+					URL:       entry.URL,
+					Title:     strings.ReplaceAll(entry.Title, "\n", "<br>"),
+					Summary:   strings.ReplaceAll(entry.Summary, "\n", "<br>"),
+					Byline:    entry.Byline,
+					Category:  entry.Category,
+					Year:      entry.Year,
+					Month:     entry.Month,
+					AISummary: strings.ReplaceAll(entry.AISummary, "\n", "<br>"),
+					Featured:  entry.Featured,
+					Sponsored: entry.Sponsored,
+				},
 			},
 		},
 	}
@@ -70,7 +72,7 @@ func Import(entry *types.Entry) (*types.Entry, error) {
 	fmt.Printf("Grist response: %s\n", resp.Status)
 	if resp.StatusCode >= 400 {
 		fmt.Println(string(respBody))
-		fmt.Println(jsonData)
+		fmt.Println(string(jsonData))
 		return entry, fmt.Errorf("Unexpected status response from Grist")
 	}
 

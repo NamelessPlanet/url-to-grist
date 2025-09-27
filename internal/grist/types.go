@@ -17,4 +17,6 @@ type Record struct {
 	Fields Fields `json:"fields"`
 }
 
-type Records []Record
+type Records struct {
+	Records []Record `json:"records"`
+}
