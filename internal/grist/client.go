@@ -2,6 +2,7 @@ package grist
 
 import (
 	"bytes"
+	"encoding/json"
 	"fmt"
 	"io"
 	"net/http"
@@ -30,37 +31,29 @@ func Import(entry *types.Entry) (*types.Entry, error) {
 
 	c := http.Client{}
 
-	var jsonData = fmt.Sprintf(`{
-		"records": [
-			{
-				"fields": {
-					"URL": "%s",
-					"Title": "%s",
-					"Summary": "%s",
-					"Byline": "%s",
-					"Category": "%s",
-					"Year": "%s",
-					"Month": "%s",
-					"AI_Summary": "%s",
-					"Featured": %t,
-					"Sponsored": %t
-				}
-			}
-		]
-	}`,
-		entry.URL,
-		strings.ReplaceAll(entry.Title, "\n", "<br>"),
-		strings.ReplaceAll(entry.Summary, "\n", "<br>"),
-		entry.Byline,
-		entry.Category,
-		entry.Year,
-		entry.Month,
-		strings.ReplaceAll(entry.AISummary, "\n", "<br>"),
-		entry.Featured,
-		entry.Sponsored,
-	)
+	records := Records{
+		Record{
+			Fields: Fields{
+				URL:       entry.URL,
+				Title:     strings.ReplaceAll(entry.Title, "\n", "<br>"),
+				Summary:   strings.ReplaceAll(entry.Summary, "\n", "<br>"),
+				Byline:    entry.Byline,
+				Category:  entry.Category,
+				Year:      entry.Year,
+				Month:     entry.Month,
+				AISummary: strings.ReplaceAll(entry.AISummary, "\n", "<br>"),
+				Featured:  entry.Featured,
+				Sponsored: entry.Sponsored,
+			},
+		},
+	}
 
-	req, _ := http.NewRequest("POST", gristTableURL, bytes.NewBuffer([]byte(jsonData)))
+	jsonData, err := json.Marshal(records)
+	if err != nil {
+		return entry, err
+	}
+
+	req, _ := http.NewRequest("POST", gristTableURL, bytes.NewBuffer(jsonData))
 	req.Header.Set("Content-Type", "application/json")
 	req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", gristAPIKey))
 
