@@ -12,6 +12,7 @@ import (
 	"url-to-grist/internal/grist"
 	"url-to-grist/internal/scraper"
 	"url-to-grist/internal/types"
+	"url-to-grist/internal/utils"
 )
 
 var (
@@ -136,9 +137,16 @@ func processURL(url string, baseEntry *types.Entry) (*types.Entry, error) {
 		entry = baseEntry
 	}
 
-	entry.URL = url
+	entry.URL, _ = utils.StripAnalytics(url)
 	entry.Year = time.Now().Format("2006")
 	entry.Month = time.Now().Format("January")
+
+	// If we're past the last weekday of the month we've already publish
+	// So any posts saved at this point want to be included in next month
+	if isPastLastWeekday() {
+		entry.Year = time.Now().AddDate(0, 1, 0).Format("2006")
+		entry.Month = time.Now().AddDate(0, 1, 0).Format("January")
+	}
 
 	entry, err := scraper.FetchURLDetails(entry)
 	if err != nil {
@@ -159,4 +167,25 @@ func processURL(url string, baseEntry *types.Entry) (*types.Entry, error) {
 	}
 
 	return entry, err
+}
+
+func isPastLastWeekday() bool {
+	now := time.Now()
+	year, month, _ := now.Date()
+	loc := now.Location()
+
+	// First day of the next month
+	firstNext := time.Date(year, month+1, 1, 0, 0, 0, 0, loc)
+	// Last day of the current month
+	lastDay := firstNext.AddDate(0, 0, -1)
+
+	lastWeekdayDay := lastDay.Day()
+	switch lastDay.Weekday() {
+	case time.Saturday:
+		lastWeekdayDay = lastDay.Day() - 1
+	case time.Sunday:
+		lastWeekdayDay = lastDay.Day() - 2
+	}
+
+	return now.Day() > lastWeekdayDay
 }
