@@ -143,9 +143,12 @@ func processURL(url string, baseEntry *types.Entry) (*types.Entry, error) {
 
 	// If we're past the last weekday of the month we've already publish
 	// So any posts saved at this point want to be included in next month
+	// We add 7 days, rather than just incrementing the month, as dates are normalised
+	// when the following month doesn't have, for example, the 31st and would result
+	// in the date rolling forward to the next month making it add 2 months instead of 1
 	if isPastLastWeekday() {
-		entry.Year = time.Now().AddDate(0, 1, 0).Format("2006")
-		entry.Month = time.Now().AddDate(0, 1, 0).Format("January")
+		entry.Year = time.Now().AddDate(0, 0, 7).Format("2006")
+		entry.Month = time.Now().AddDate(0, 0, 7).Format("January")
 	}
 
 	entry, err := scraper.FetchURLDetails(entry)
