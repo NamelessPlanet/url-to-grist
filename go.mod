@@ -2,7 +2,7 @@ module url-to-grist
 
 go 1.25.0
 
-toolchain go1.25.7
+toolchain go1.27.1
 
 require github.com/gocolly/colly/v2 v2.3.0
 
